@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My 3-Day Split</title>
+  <style>
+    /* --- Frutiger Aero-ish UI (gloss + glass + aqua gradients) --- */
+    :root{
+      --sky1:#dff7ff;
+      --sky2:#bfeeff;
+      --sky3:#7fd4ff;
+      --deep:#0b3a66;
+      --glass: rgba(255,255,255,.22);
+      --glass2: rgba(255,255,255,.14);
+      --stroke: rgba(255,255,255,.35);
+      --stroke2: rgba(10,60,110,.25);
+      --shadow: rgba(0,0,0,.25);
+      --text:#082a45;
+      --muted:#1a4d74;
+      --accent:#1bb2ff;
+      --accent2:#00f0c8;
+      --danger:#ff3b7a;
+      --warn1:#ffd66b;
+      --warn2:#ff8a00;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: "Segoe UI", Tahoma, Arial, system-ui, -apple-system, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(255,255,255,.75), rgba(255,255,255,0) 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(255,255,255,.55), rgba(255,255,255,0) 62%),
+        radial-gradient(1200px 700px at 55% 90%, rgba(0,240,200,.18), rgba(0,0,0,0) 60%),
+        linear-gradient(180deg, var(--sky1), var(--sky2) 40%, var(--sky3));
+      min-height:100vh;
+    }
+
+    /* top glossy header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      padding:16px 14px 12px;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,.18));
+      border-bottom:1px solid rgba(255,255,255,.55);
+      box-shadow: 0 10px 28px rgba(0,0,0,.10);
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px 12px 44px;
+    }
+
+    h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+      text-shadow: 0 1px 0 rgba(255,255,255,.7);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .orb{
+      width:18px; height:18px;
+      border-radius:999px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,0) 55%),
+        radial-gradient(circle at 60% 70%, rgba(0,240,200,.55), rgba(0,0,0,0) 60%),
+        linear-gradient(180deg, rgba(27,178,255,.85), rgba(0,60,120,.65));
+      box-shadow:
+        0 8px 18px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.7);
+      border:1px solid rgba(255,255,255,.55);
+    }
+
+    .sub{
+      margin:7px 0 0;
+      font-size:13px;
+      line-height:1.35;
+      color:var(--muted);
+      text-shadow: 0 1px 0 rgba(255,255,255,.6);
+    }
+
+    .pills{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.55);
+      background: linear-gradient(180deg, rgba(255,255,255,.60), rgba(255,255,255,.18));
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.10),
+        inset 0 1px 0 rgba(255,255,255,.7);
+      color:var(--deep);
+      font-weight:700;
+      font-size:12px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,0) 60%),
+                  linear-gradient(180deg, var(--accent2), var(--accent));
+      box-shadow: 0 2px 6px rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.55);
+    }
+    .dot.rest{
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,0) 60%),
+        linear-gradient(180deg, var(--warn1), var(--warn2));
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 12px 0 16px;
+    }
+
+    button{
+      border:none;
+      cursor:pointer;
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:800;
+      color: var(--deep);
+      background:
+        radial-gradient(120px 40px at 25% 10%, rgba(255,255,255,.95), rgba(255,255,255,0) 65%),
+        linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.18));
+      box-shadow:
+        0 14px 28px rgba(0,0,0,.14),
+        inset 0 1px 0 rgba(255,255,255,.75);
+      border:1px solid rgba(255,255,255,.55);
+      transition: transform .06s ease;
+    }
+    button:active{ transform: translateY(1px); }
+
+    button.primary{
+      color:#05304f;
+      border:1px solid rgba(255,255,255,.6);
+      background:
+        radial-gradient(160px 55px at 25% 10%, rgba(255,255,255,.95), rgba(255,255,255,0) 70%),
+        linear-gradient(180deg, rgba(0,240,200,.55), rgba(27,178,255,.55));
+    }
+
+    button.danger{
+      color:#4a0017;
+      background:
+        radial-gradient(160px 55px at 25% 10%, rgba(255,255,255,.95), rgba(255,255,255,0) 70%),
+        linear-gradient(180deg, rgba(255,120,170,.65), rgba(255,59,122,.55));
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap:12px;
+    }
+
+    .card{
+      position:relative;
+      border-radius:18px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,.55);
+      background:
+        radial-gradient(360px 180px at 25% 5%, rgba(255,255,255,.75), rgba(255,255,255,0) 60%),
+        linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.10));
+      box-shadow:
+        0 18px 40px rgba(0,0,0,.16),
+        inset 0 1px 0 rgba(255,255,255,.7);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:-40px -60px auto -60px;
+      height:120px;
+      background: radial-gradient(circle at 35% 40%, rgba(255,255,255,.65), rgba(255,255,255,0) 70%);
+      pointer-events:none;
+    }
+
+    .day{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .day h2{
+      margin:0;
+      font-size:15px;
+      text-shadow: 0 1px 0 rgba(255,255,255,.65);
+    }
+    .tag{
+      font-size:12px;
+      font-weight:700;
+      color:var(--muted);
+      text-align:right;
+    }
+
+    ul{ list-style:none; padding:0; margin:12px 0 0; }
+
+    li{
+      display:flex;
+      gap:10px;
+      padding:10px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.35);
+      background:
+        radial-gradient(140px 42px at 18% 0%, rgba(255,255,255,.70), rgba(255,255,255,0) 70%),
+        linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.08));
+      box-shadow:
+        0 10px 20px rgba(0,0,0,.10),
+        inset 0 1px 0 rgba(255,255,255,.65);
+      margin-bottom:10px;
+    }
+
+    input[type="checkbox"]{
+      width:18px; height:18px;
+      margin-top:2px;
+      accent-color: var(--accent);
+    }
+
+    .ex b{ display:block; font-size:14px; }
+    .ex small{ display:block; color:var(--muted); font-size:12px; margin-top:2px; }
+
+    .footer{
+      margin-top:16px;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.55);
+      background: linear-gradient(180deg, rgba(255,255,255,.40), rgba(255,255,255,.12));
+      box-shadow: 0 16px 34px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.7);
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="padding:0; max-width:980px;">
+      <h1><span class="orb"></span>My 3-Day Split</h1>
+      <div class="sub">
+        Workout days: <b>Monday</b>, <b>Wednesday</b>, <b>Thursday</b>. Rest the other days.
+        <br/>Working sets: usually <b>1 hard set</b> per exercise (warm up as needed).
+      </div>
+
+      <div class="pills">
+        <span class="pill"><span class="dot"></span>Mon: Workout A</span>
+        <span class="pill"><span class="dot"></span>Wed: Workout B</span>
+        <span class="pill"><span class="dot"></span>Thu: Workout C</span>
+        <span class="pill"><span class="dot rest"></span>Rest: Tue/Fri/Sat/Sun</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="row">
+      <button class="primary" id="resetDay">Reset TODAY (uncheck today’s workout)</button>
+      <button class="danger" id="resetAll">Reset ALL</button>
+      <button id="toggleNotes">Show/Hide Notes</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="footer" id="notes" style="display:none;">
+      <b>Quick Notes</b><br/>
+      • “Positive failure” = you cannot complete another full <i>lifting</i> rep with good form.<br/>
+      • Warm-ups: do 1–2 lighter warm-up sets for big lifts (squat, deadlift, press, row).<br/>
+      • Rest: usually 60–120 seconds; big compounds can be 2–3 minutes if needed.
+    </div>
+  </div>
+
+<script>
+  const split = [
+    {
+      key: "A",
+      title: "Workout A (Monday) — Lower + Back Focus",
+      tag: "Usually 1 working set per exercise",
+      exercises: [
+        ["Leg Extensions", "Do 1 set of 10 reps"],
+        ["Squats", "Do 1 set of 8 to 10 reps"],
+        ["Leg Curls", "Do 1 set of 10 reps"],
+        ["Toe Raises (Calves)", "Do 1 set of 10 to 15 reps"],
+        ["Deadlifts", "Do 1 set of 8 to 10 reps"],
+        ["Barbell Rows", "Do 1 set of 8 to 10 reps"],
+      ]
+    },
+    {
+      key: "B",
+      title: "Workout B (Wednesday) — Chest + Pull Focus",
+      tag: "Usually 1 working set per exercise",
+      exercises: [
+        ["Pull-Ups", "Do 1 set to near-failure (aim for 6 to 10 reps)"],
+        ["Cable Standing Fly (Machine)", "Do 1 set of 10 reps"],
+        ["Incline Press", "Do 1 set of 8 to 10 reps"],
+        ["Dips", "Do 1 set to near-failure (aim for 6 to 10 reps)"],
+      ]
+    },
+    {
+      key: "C",
+      title: "Workout C (Thursday) — Shoulders + Arms",
+      tag: "Usually 1 working set per exercise",
+      exercises: [
+        ["Dumbbell Lateral Raises", "Do 1 set of 10 to 12 reps"],
+        ["Barbell Curls", "Do 1 set of 8 to 10 reps"],
+        ["Triceps Press", "Do 1 set of 8 to 10 reps"],
+      ]
+    }
+  ];
+
+  const storageKey = "my_3day_split_checks_v3";
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(storageKey) || "{}"); }
+    catch { return {}; }
+  }
+  function saveState(state) {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  }
+
+  function todayKey() {
+    const d = new Date();
+    const day = d.getDay(); // 0 Sun ... 6 Sat
+    // Your schedule: Mon(A), Wed(B), Thu(C)
+    if (day === 1) return "A";
+    if (day === 3) return "B";
+    if (day === 4) return "C";
+    return null; // rest day
+  }
+
+  function render() {
+    const grid = document.getElementById("grid");
+    const state = loadState();
+    grid.innerHTML = "";
+
+    split.forEach((block) => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const header = document.createElement("div");
+      header.className = "day";
+      header.innerHTML = `<h2>${block.title}</h2><span class="tag">${block.tag}</span>`;
+      card.appendChild(header);
+
+      const ul = document.createElement("ul");
+      block.exercises.forEach((ex, idx) => {
+        const id = `${block.key}-${idx}`;
+        const li = document.createElement("li");
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!state[id];
+        cb.addEventListener("change", () => {
+          const next = loadState();
+          next[id] = cb.checked;
+          saveState(next);
+        });
+
+        const info = document.createElement("div");
+        info.className = "ex";
+        info.innerHTML = `<b>${ex[0]}</b><small>${ex[1]}</small>`;
+
+        li.appendChild(cb);
+        li.appendChild(info);
+        ul.appendChild(li);
+      });
+
+      card.appendChild(ul);
+      grid.appendChild(card);
+    });
+  }
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    localStorage.removeItem(storageKey);
+    render();
+  });
+
+  document.getElementById("resetDay").addEventListener("click", () => {
+    const tk = todayKey();
+    if (!tk) {
+      alert("Today is a rest day (Tuesday, Friday, Saturday, or Sunday). No workout to reset.");
+      return;
+    }
+    const state = loadState();
+    Object.keys(state).forEach(k => {
+      if (k.startsWith(tk + "-")) delete state[k];
+    });
+    saveState(state);
+    render();
+  });
+
+  document.getElementById("toggleNotes").addEventListener("click", () => {
+    const notes = document.getElementById("notes");
+    notes.style.display = (notes.style.display === "none") ? "block" : "none";
+  });
+
+  render();
+</script>
+</body>
+</html>
